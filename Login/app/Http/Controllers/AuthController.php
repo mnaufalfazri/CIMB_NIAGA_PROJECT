@@ -23,7 +23,7 @@ class AuthController extends Controller
 
             // Redirect ke Wealth service (dashboard) dengan token
             $wealthUrl = config('services.banking.url', 'http://localhost:8002');
-            return redirect($wealthUrl . '/wealth/dashboard?token=' . $token);
+            return redirect($wealthUrl . '/dashboard?token=' . $token);
         }
         return back()->with('failed', 'Email atau password salah');
     }
@@ -43,7 +43,7 @@ class AuthController extends Controller
         // Issue token untuk nasabah baru, redirect ke Wealth dashboard
         $token = $user->createToken('api-token')->plainTextToken;
         $wealthUrl = config('services.banking.url', 'http://localhost:8002');
-        return redirect($wealthUrl . '/wealth/dashboard?token=' . $token);
+        return redirect($wealthUrl . '/dashboard?token=' . $token);
     }
 
     public function logout(){
@@ -52,7 +52,7 @@ class AuthController extends Controller
             $user->tokens()->delete();
         }
         Auth::logout($user);
-        return redirect('/login');
+        return redirect('/');
     }
 }
 

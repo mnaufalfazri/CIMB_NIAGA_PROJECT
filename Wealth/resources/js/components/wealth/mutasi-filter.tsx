@@ -21,9 +21,13 @@ export function MutasiFilter({ filters, className }: MutasiFilterProps) {
     const [direction, setDirection] = useState(filters.direction || 'all');
     const [isApplying, setIsApplying] = useState(false);
 
-    // Effect to reset isApplying when filters change in props
+    // Effect to reset isApplying and sync local state when filters change in props
     useEffect(() => {
         setIsApplying(false);
+        setDateFrom(filters.date_from || '');
+        setDateTo(filters.date_to || '');
+        setType(filters.transaction_type || 'all');
+        setDirection(filters.direction || 'all');
     }, [filters]);
 
     const handleSubmit = (e: FormEvent) => {
@@ -71,6 +75,7 @@ export function MutasiFilter({ filters, className }: MutasiFilterProps) {
                             type="date"
                             value={dateFrom}
                             onChange={(e) => setDateFrom(e.target.value)}
+                            onClick={(e) => e.currentTarget.showPicker && e.currentTarget.showPicker()}
                             className="block w-full rounded-[8px] border border-border bg-bg-app pl-10 py-2 text-sm text-text-primary focus:border-primary focus:ring-primary"
                         />
                     </div>
@@ -80,6 +85,7 @@ export function MutasiFilter({ filters, className }: MutasiFilterProps) {
                             type="date"
                             value={dateTo}
                             onChange={(e) => setDateTo(e.target.value)}
+                            onClick={(e) => e.currentTarget.showPicker && e.currentTarget.showPicker()}
                             className="block w-full rounded-[8px] border border-border bg-bg-app px-3 py-2 text-sm text-text-primary focus:border-primary focus:ring-primary"
                         />
                     </div>

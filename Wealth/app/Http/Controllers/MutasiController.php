@@ -38,7 +38,7 @@ class MutasiController extends Controller
                 accountId: $account->id,
                 filters: $filters,
                 perPage: 15
-            );
+            )->withQueryString();
         }
 
         return Inertia::render('wealth/mutasi', [

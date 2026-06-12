@@ -19,12 +19,18 @@ class ValidateServiceToken
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $token = $request->query('token') ?? session('api_token');
+        $tokenFromQuery = $request->query('token');
+        $currentToken = session('api_token');
+        $token = $tokenFromQuery ?? $currentToken;
+
         Log::info("ValidateServiceToken running. Token: " . ($token ?: 'NULL'));
 
         if ($token) {
-            // Persist token into session when it arrives via query string
-            if ($request->query('token')) {
+            // If the token changed from query string, force re-validation
+            if ($tokenFromQuery && $tokenFromQuery !== $currentToken) {
+                session(['api_token' => $token]);
+                Auth::logout();
+            } elseif ($tokenFromQuery) {
                 session(['api_token' => $token]);
             }
 

@@ -38,11 +38,12 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'name' => config('app.name'),
-            'auth' => [
+            'auth' => fn () => [
                 'user' => $request->user(),
                 'api_token' => session('api_token'),
             ],
-            'services' => [
+            'services' => fn () => [
+                'regist_url' => config('services.regist.url', 'http://localhost:8001'),
                 'payment_url' => config('services.payment.url', 'http://localhost:8003'),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
