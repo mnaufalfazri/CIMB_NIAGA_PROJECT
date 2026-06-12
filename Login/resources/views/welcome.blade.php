@@ -87,13 +87,13 @@
 <body>
 
     <!-- NAVBAR -->
-    <nav style="position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.08); padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 68px;">
+    <nav style="position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.08); padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 80px;">
         <!-- Wait, the logo image path from TSX was /images/cimb-logo.png. Login service uses http://localhost:8001. -->
         <!-- I will link directly to the image or provide text if missing -->
         <!-- Just in case image is missing from Login service public dir, add fallback -->
-        <div style="font-size: 1.25rem; font-weight: 800; color: #7b1818; display: flex; align-items: center;">
-            <span style="background: #7b1818; color: white; padding: 4px 8px; border-radius: 4px; margin-right: 8px;">CIMB</span> NIAGA
-        </div>
+        <a href="/" style="display: flex; align-items: center;">
+            <img src="/images/cimb-logo.png" alt="CIMB Niaga" style="height: 64px; width: auto; object-fit: contain;">
+        </a>
 
         <div style="display: flex; gap: 12px; align-items: center;">
             @auth

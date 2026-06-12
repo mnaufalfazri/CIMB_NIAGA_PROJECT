@@ -79,13 +79,17 @@
         }
 
         .cimb-auth-logo-link {
+            position: absolute;
+            top: 24px;
+            left: 32px;
+            z-index: 10;
             display: inline-block;
-            margin-bottom: 8px;
         }
 
         .cimb-auth-logo {
-            height: 52px;
-            width: auto;
+            height: auto;
+            width: 180px;
+            max-width: 100%;
             object-fit: contain;
             /* Make white so it shows on dark bg */
             filter: brightness(0) invert(1);
@@ -389,11 +393,13 @@
         <div class="cimb-deco cimb-deco-2"></div>
         <div class="cimb-deco cimb-deco-3"></div>
 
+        <!-- Logo -->
+        <a href="/" class="cimb-auth-logo-link">
+            <img src="/images/cimb-logo.png" alt="CIMB Niaga" class="cimb-auth-logo">
+        </a>
+
         <div class="cimb-auth-left-content">
-            <!-- Logo -->
-            <a href="/" class="cimb-auth-logo-link">
-                <img src="/images/cimb-logo.png" alt="CIMB Niaga" class="cimb-auth-logo">
-            </a>
+
 
             <!-- Tagline -->
             <div class="cimb-auth-tagline">
