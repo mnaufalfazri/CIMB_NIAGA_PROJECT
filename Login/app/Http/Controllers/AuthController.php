@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -36,8 +37,14 @@ class AuthController extends Controller
             'password' => 'required|max:50|min:8',
             'confirm_password' => 'required|max:50|min:8|same:password',
         ]);
-        $request['status'] = "active";
-        $user = User::create($request->all());
+        $user = User::create([
+            'name'           => $request->name,
+            'nomor_rekening' => $request->nomor_rekening,
+            'email'          => $request->email,
+            'password'       => Hash::make($request->password),
+            'status'         => 'active',
+            'role'           => 'nasabah',
+        ]);
         Auth::login($user);
 
         // Issue token untuk nasabah baru, redirect ke Wealth dashboard

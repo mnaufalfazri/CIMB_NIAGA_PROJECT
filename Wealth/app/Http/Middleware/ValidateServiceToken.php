@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use App\Models\Account;
 use App\Models\User;
+use App\Services\WealthService;
 use Symfony\Component\HttpFoundation\Response;
 
 class ValidateServiceToken
@@ -46,11 +48,35 @@ class ValidateServiceToken
                         $userData  = $response->json();
                         $localUser = User::where('email', $userData['email'])->first();
 
+                        if (!$localUser) {
+                            // User baru registrasi: belum ada di DB Wealth, buat otomatis
+                            Log::info('ValidateServiceToken: User not found locally, creating from Login service data: ' . $userData['email']);
+                            $localUser = User::create([
+                                'name'     => $userData['name'],
+                                'email'    => $userData['email'],
+                                'password' => \Illuminate\Support\Facades\Hash::make(\Illuminate\Support\Str::random(32)),
+                            ]);
+
+                            // Buat Account untuk user baru jika belum ada
+                            if ($localUser && !empty($userData['nomor_rekening'])) {
+                                $accountExists = Account::where('user_id', $localUser->id)->exists();
+                                if (!$accountExists) {
+                                    Log::info('ValidateServiceToken: Creating account for new user: ' . $localUser->email);
+                                    app(WealthService::class)->createAccountForUser([
+                                        'user_id'        => $localUser->id,
+                                        'user_name'      => $localUser->name,
+                                        'nomor_rekening' => $userData['nomor_rekening'],
+                                        'account_type'   => 'saving',
+                                    ]);
+                                }
+                            }
+                        }
+
                         if ($localUser) {
                             Log::info('ValidateServiceToken: Logging in user ' . $localUser->email);
                             Auth::login($localUser);
                         } else {
-                            Log::warning('ValidateServiceToken: Local user not found for email: ' . $userData['email']);
+                            Log::warning('ValidateServiceToken: Failed to create/find local user for email: ' . $userData['email']);
                             session()->forget('api_token');
                         }
                     } else {

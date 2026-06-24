@@ -57,9 +57,9 @@ class PaymentController extends Controller
 
     public function execute(Request $request)
     {
-        $user = session('user');
-        $amount = (float) $request->amount;
-        $adminFee = 2500;
+        $user       = session('user');
+        $amount     = (float) $request->amount;
+        $adminFee   = 2500;
         $totalDebit = $amount + $adminFee;
 
         // Check balance
@@ -69,27 +69,52 @@ class PaymentController extends Controller
         }
 
         $referenceId = 'PAY-' . now()->format('YmdHis') . '-' . rand(1000, 9999);
+        $billerLabel = strtoupper($request->biller_category);
 
-        // Debit account
+        // FIX #2: Debit only the bill amount with transaction_type = 'payment'
         $debitResult = $this->bankingService->debit([
-            'nomor_rekening' => $user['nomor_rekening'],
-            'amount' => $totalDebit,
-            'reference_id' => $referenceId . '-DB',
-            'description' => 'Pembayaran ' . strtoupper($request->biller_category) . ' ' . $request->customer_number
+            'nomor_rekening'   => $user['nomor_rekening'],
+            'amount'           => $amount,
+            'reference_id'     => $referenceId . '-DB',
+            'transaction_type' => 'payment',
+            'description'      => 'Pembayaran ' . $billerLabel . ' No. ' . $request->customer_number,
         ]);
 
         if (!$debitResult['success']) {
             return redirect()->route('payment.create')->with('error', 'Pembayaran gagal: ' . $debitResult['message']);
         }
 
+        // FIX #2: Debit admin fee separately as admin_fee transaction
+        $feeDebitResult = $this->bankingService->debit([
+            'nomor_rekening'   => $user['nomor_rekening'],
+            'amount'           => $adminFee,
+            'reference_id'     => $referenceId . '-FEE',
+            'transaction_type' => 'admin_fee',
+            'description'      => 'Biaya Admin Pembayaran ' . $billerLabel,
+        ]);
+
+        if (!$feeDebitResult['success']) {
+            // Rollback the bill debit before returning error
+            $this->bankingService->credit([
+                'nomor_rekening'       => $user['nomor_rekening'],
+                'amount'               => $amount,
+                'reference_id'         => $referenceId . '-RB',
+                'description'          => 'Rollback pembayaran — gagal memotong biaya admin',
+                'counterparty_account' => 'SYSTEM',
+                'counterparty_name'    => 'SYSTEM',
+            ]);
+
+            return redirect()->route('payment.create')->with('error', 'Gagal memotong biaya admin: ' . $feeDebitResult['message']);
+        }
+
         $payment = Payment::create([
-            'nomor_rekening' => $user['nomor_rekening'],
-            'biller_category' => $request->biller_category,
-            'customer_number' => $request->customer_number,
-            'amount' => $amount,
-            'admin_fee' => $adminFee,
-            'status' => 'completed',
-            'reference_id' => $referenceId,
+            'nomor_rekening'   => $user['nomor_rekening'],
+            'biller_category'  => $request->biller_category,
+            'customer_number'  => $request->customer_number,
+            'amount'           => $amount,
+            'admin_fee'        => $adminFee,
+            'status'           => 'completed',
+            'reference_id'     => $referenceId,
         ]);
 
         return redirect()->route('payment.receipt', $payment->id)->with('success', 'Pembayaran Berhasil');
