@@ -253,3 +253,323 @@ tr{
 .dark .topbar button{
   background:#FF3737;
 }
+
+/* ============================
+   ADMIN - ALERTS
+   ============================ */
+
+.alert {
+  padding: 14px 18px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.alert-success {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #6ee7b7;
+}
+
+.alert-danger {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+/* ============================
+   ADMIN - SEARCH & FILTER BAR
+   ============================ */
+
+.search-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.search-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 14px 10px 36px;
+  border-radius: 10px;
+  border: 1.5px solid #FFC193;
+  font-size: 14px;
+  background: #fff;
+  color: #4b3a32;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.search-input:focus {
+  border-color: #FF3737;
+  box-shadow: 0 0 0 3px rgba(255, 55, 55, 0.12);
+}
+
+.filter-pills {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-pill {
+  display: inline-block;
+  padding: 9px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  color: #4b3a32;
+  background: #fff;
+  border: 1.5px solid #FFC193;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.filter-pill:hover {
+  border-color: #FF3737;
+  color: #FF3737;
+}
+
+.filter-pill.active {
+  background: #FF3737;
+  color: #fff;
+  border-color: #FF3737;
+}
+
+.btn-search {
+  padding: 10px 20px;
+  background: #FF3737;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.btn-search:hover {
+  background: #cc2222;
+  transform: translateY(-1px);
+}
+
+/* ============================
+   ADMIN - TABLE ENHANCEMENTS
+   ============================ */
+
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+}
+
+.user-name {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.rekening-badge {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  background: #FFF3E0;
+  color: #7b4e2d;
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.05em;
+}
+
+.empty-state {
+  text-align: center;
+  color: #9ca3af;
+  padding: 40px 16px !important;
+  font-size: 15px;
+}
+
+/* ============================
+   ADMIN - STATUS BADGES
+   ============================ */
+
+.badge-active {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #d1fae5;
+  color: #065f46;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-banned {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-verify {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #fef3c7;
+  color: #92400e;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ============================
+   ADMIN - ACTION BUTTONS
+   ============================ */
+
+.btn-sm {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-ban {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.btn-ban:hover {
+  background: #FF3737;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.btn-unban {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.btn-unban:hover {
+  background: #10b981;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* ============================
+   ADMIN - PAGINATION
+   ============================ */
+
+.pagination-wrapper {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.pagination-wrapper nav {
+  display: flex;
+  gap: 4px;
+}
+
+.pagination-wrapper span,
+.pagination-wrapper a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  color: #4b3a32;
+  border: 1.5px solid #FFC193;
+  background: #fff;
+  transition: all 0.2s;
+}
+
+.pagination-wrapper a:hover {
+  border-color: #FF3737;
+  color: #FF3737;
+}
+
+.pagination-wrapper [aria-current="page"] span {
+  background: #FF3737;
+  color: #fff;
+  border-color: #FF3737;
+}
+
+/* ============================
+   DARK MODE - ADMIN ADDITIONS
+   ============================ */
+
+.dark .search-input {
+  background: #4a2f2f;
+  color: #ffe0c7;
+  border-color: #6b4a4a;
+}
+
+.dark .filter-pill {
+  background: #4a2f2f;
+  color: #ffe0c7;
+  border-color: #6b4a4a;
+}
+
+.dark .filter-pill.active {
+  background: #FF3737;
+  color: #fff;
+}
+
+.dark .user-name {
+  color: #ffe0c7;
+}
+
+.dark .rekening-badge {
+  background: #5c3a1e;
+  color: #ffc19a;
+}
+
+.dark .alert-success {
+  background: #064e3b;
+  color: #6ee7b7;
+  border-color: #047857;
+}
+
+.dark .alert-danger {
+  background: #7f1d1d;
+  color: #fca5a5;
+  border-color: #991b1b;
+}
+
+.dark .pagination-wrapper span,
+.dark .pagination-wrapper a {
+  background: #4a2f2f;
+  color: #ffe0c7;
+  border-color: #6b4a4a;
+}

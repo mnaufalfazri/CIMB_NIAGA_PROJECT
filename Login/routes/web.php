@@ -20,6 +20,7 @@ Route::get('/DashNasabah', [DashboardController::class, 'index'])->middleware('a
 
 Route::group(['middleware' => ['auth', 'check_role:admin']], function(){
     Route::get('/DashAdmin', [DashAdminController::class, 'index'])->middleware('auth');
+    Route::post('/admin/users/{user}/toggle-ban', [DashAdminController::class, 'toggleBan'])->name('admin.users.toggleBan');
 });
 
 Route::get('/logout', [AuthController::class, 'logout']);

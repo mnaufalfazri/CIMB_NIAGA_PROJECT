@@ -16,6 +16,13 @@ class AuthController extends Controller
         ]);
         if(Auth::attempt($request->only('email','password'), $request->remember)){
             $user = Auth::user();
+
+            // Cek apakah akun nasabah di-ban
+            if($user->status === 'banned') {
+                Auth::logout();
+                return back()->with('failed', 'Akun Anda telah di-banned. Silakan hubungi administrator untuk informasi lebih lanjut.');
+            }
+
             if($user->role == 'admin') return redirect('/DashAdmin');
 
             // Issue Sanctum token untuk integrasi dengan Wealth/Banking service
