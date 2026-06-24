@@ -86,6 +86,12 @@
                     </li>
                     <li class="nav-header">AKUN</li>
                     <li class="nav-item">
+                        <a href="{{ config('services.banking.url') }}/settings/profile?token={{ session('api_token') }}" class="nav-link">
+                            <i class="nav-icon fas fa-cog"></i>
+                            <p>Settings</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{ config('services.regist.url') }}/logout" class="nav-link text-danger">
                             <i class="nav-icon fas fa-sign-out-alt"></i>
                             <p>Logout</p>

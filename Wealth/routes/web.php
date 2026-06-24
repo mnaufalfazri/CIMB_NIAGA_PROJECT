@@ -12,6 +12,7 @@ Route::middleware(['validate.token'])->group(function () {
     // Wealth Management & Mutasi
     Route::get('/wealth/dashboard', [DashboardController::class, 'index'])->name('wealth.dashboard');
     Route::get('/wealth/mutasi', [MutasiController::class, 'index'])->name('wealth.mutasi');
+    Route::get('/wealth/mutasi/export', [MutasiController::class, 'exportCsv'])->name('wealth.mutasi.export');
 });
 
 require __DIR__.'/settings.php';

@@ -79,6 +79,20 @@ class WealthService
             ->paginate($perPage);
     }
 
+    /**
+     * Get all transactions (no pagination) for CSV export.
+     * Re-uses the same filter scopes as getMutasi().
+     */
+    public function getMutasiAll(int $accountId, array $filters): \Illuminate\Support\Collection
+    {
+        return Transaction::where('account_id', $accountId)
+            ->filterByDate($filters['date_from'] ?? null, $filters['date_to'] ?? null)
+            ->filterByType($filters['transaction_type'] ?? null)
+            ->filterByDirection($filters['direction'] ?? null)
+            ->orderByDesc('created_at')
+            ->get();
+    }
+
     // ─────────────────────────────────────────────────────────────
     // SRS-BNK-003: Auto-Create Account
     // ─────────────────────────────────────────────────────────────

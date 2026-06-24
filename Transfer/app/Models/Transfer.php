@@ -21,8 +21,8 @@ class Transfer extends Model
     protected function casts(): array
     {
         return [
-            'amount' => 'decimal:2',
-            'fee' => 'decimal:2',
+            'amount' => 'float',
+            'fee'    => 'float',
         ];
     }
 }

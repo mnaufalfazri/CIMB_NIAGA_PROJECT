@@ -35,6 +35,19 @@ export default function Mutasi({ account, transactions, filters }: MutasiProps) 
 
     const { data, current_page, last_page, total, from, to, links } = transactions;
 
+    /** Build export URL with current active filters as query params */
+    const buildExportUrl = () => {
+        const params = new URLSearchParams();
+        if (filters.date_from)        params.set('date_from', filters.date_from);
+        if (filters.date_to)          params.set('date_to', filters.date_to);
+        if (filters.transaction_type && filters.transaction_type !== 'all')
+                                      params.set('transaction_type', filters.transaction_type);
+        if (filters.direction && filters.direction !== 'all')
+                                      params.set('direction', filters.direction);
+        const qs = params.toString();
+        return `/wealth/mutasi/export${qs ? '?' + qs : ''}`;
+    };
+
     return (
         <>
             <Head title="Mutasi Rekening" />
@@ -55,10 +68,15 @@ export default function Mutasi({ account, transactions, filters }: MutasiProps) 
                             </p>
                         </div>
                         
-                        <button className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-bg-surface px-4 py-2.5 text-sm font-medium text-text-primary transition-colors hover:bg-bg-app shadow-sm">
+                        <a
+                            href={buildExportUrl()}
+                            download
+                            title="Unduh mutasi sesuai filter yang aktif"
+                            className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-bg-surface px-4 py-2.5 text-sm font-medium text-text-primary transition-colors hover:bg-primary hover:text-white hover:border-primary shadow-sm"
+                        >
                             <Download className="h-4 w-4" />
                             Unduh Mutasi
-                        </button>
+                        </a>
                     </div>
                 </div>
 

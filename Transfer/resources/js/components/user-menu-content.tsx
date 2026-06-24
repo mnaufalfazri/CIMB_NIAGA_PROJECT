@@ -1,4 +1,4 @@
-import { Link, router, usePage } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 import { LogOut, Settings } from 'lucide-react';
 import {
     DropdownMenuGroup,
@@ -8,8 +8,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { UserInfo } from '@/components/user-info';
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
-import { logout } from '@/routes';
-import { edit } from '@/routes/profile';
 import type { User } from '@/types';
 
 type Props = {
@@ -19,12 +17,18 @@ type Props = {
 export function UserMenuContent({ user }: Props) {
     const cleanup = useMobileNavigation();
 
-    const { services } = usePage().props as any;
+    const { services, auth } = usePage().props as any;
+    const apiToken = auth?.api_token || '';
 
     const handleLogout = () => {
         cleanup();
         router.flushAll();
         window.location.href = services.regist_url + '/logout';
+    };
+
+    const handleSettings = () => {
+        cleanup();
+        window.location.href = services.banking_url + '/settings/profile?token=' + apiToken;
     };
 
     return (
@@ -37,15 +41,14 @@ export function UserMenuContent({ user }: Props) {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
                 <DropdownMenuItem asChild>
-                    <Link
-                        className="block w-full cursor-pointer"
-                        href={edit()}
-                        prefetch
-                        onClick={cleanup}
+                    <button
+                        className="flex w-full cursor-pointer items-center"
+                        onClick={handleSettings}
+                        data-test="settings-button"
                     >
                         <Settings className="mr-2" />
                         Settings
-                    </Link>
+                    </button>
                 </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
